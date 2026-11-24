@@ -3,7 +3,9 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 import { urlApi } from './api.config';
-import { Avance, NuevoAvance, NuevoReto, Pagina, Reto, TareaSemanal } from './modelos';
+import {
+  Avance, EstadisticasReto, NuevoAvance, NuevoReto, Pagina, Reto, TareaSemanal,
+} from './modelos';
 
 /** Solo habla con el backend. No guarda estado: eso es tarea de SeguimientoService. */
 @Injectable({ providedIn: 'root' })
@@ -17,6 +19,10 @@ export class RetosApi {
 
   obtenerReto(id: number): Observable<Reto> {
     return this.http.get<Reto>(`${this.base}/retos/${id}/`);
+  }
+
+  obtenerEstadisticas(id: number): Observable<EstadisticasReto> {
+    return this.http.get<EstadisticasReto>(`${this.base}/retos/${id}/estadisticas/`);
   }
 
   crearReto(datos: NuevoReto): Observable<Reto> {

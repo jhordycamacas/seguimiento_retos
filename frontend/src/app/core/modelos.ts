@@ -49,6 +49,28 @@ export interface TareaSemanal {
   actualizado: string;
 }
 
+/** Semana que contiene el día de hoy, con el ritmo diario para llegar al 100 %. */
+export interface SemanaEnCurso {
+  semana: number;
+  porcentaje: number;
+  faltante: number;
+  dias_restantes: number;
+  ritmo_diario: number;
+}
+
+/** Respuesta de GET /api/retos/{id}/estadisticas/. */
+export interface EstadisticasReto {
+  semanas_total: number;
+  cerradas: number;
+  verdes: number;
+  amarillas: number;
+  rojas: number;
+  cumplimiento_promedio: number | null;
+  racha_actual: number;
+  mejor_racha: number;
+  semana_actual: SemanaEnCurso | null;
+}
+
 /** Respuesta paginada de Django REST Framework. */
 export interface Pagina<T> {
   count: number;

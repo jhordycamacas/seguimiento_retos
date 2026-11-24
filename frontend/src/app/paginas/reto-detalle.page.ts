@@ -32,6 +32,7 @@ import {
 import { BehaviorSubject, catchError, of, switchMap } from 'rxjs';
 
 import { ETIQUETA_ESTADO } from '../core/modelos';
+import { PanelRitmoComponent } from './panel-ritmo.component';
 import { RetosApi, mensajeError } from '../core/retos-api.service';
 import {
   COLOR_SEMAFORO,
@@ -48,7 +49,7 @@ import { SeguimientoService } from '../core/seguimiento.service';
     AsyncPipe, ReactiveFormsModule, IonBackButton, IonBadge, IonButton, IonButtons, IonCard,
     IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader,
     IonInput, IonItem, IonLabel, IonList, IonNote, IonProgressBar, IonRange, IonSegment,
-    IonSegmentButton, IonText, IonTitle, IonToolbar,
+    IonSegmentButton, IonText, IonTitle, IonToolbar, PanelRitmoComponent,
   ],
   styles: `
     .semana-actual { --background: var(--ion-color-primary-tint); }
@@ -80,6 +81,8 @@ import { SeguimientoService } from '../core/seguimiento.service';
       } @else {
         <ion-text color="medium"><p>Cargando reto…</p></ion-text>
       }
+
+      <app-panel-ritmo [datos]="estadisticas$ | async"></app-panel-ritmo>
 
       <ion-segment [value]="vista()" (ionChange)="vista.set($any($event).detail.value)">
         <ion-segment-button value="semanas"><ion-label>Semanas</ion-label></ion-segment-button>
@@ -175,6 +178,12 @@ export class RetoDetallePage {
 
   protected readonly reto$ = this.api.obtenerReto(this.id).pipe(catchError(() => of(null)));
   protected readonly semanas$ = this.seguimiento.semanasDeReto$(this.id);
+
+  // F8 (propio): cada vez que las semanas cambian (guardado, recarga o cambio de día)
+  // se vuelven a pedir las estadísticas, así el panel de ritmo siempre está al día.
+  protected readonly estadisticas$ = this.semanas$.pipe(
+    switchMap(() => this.api.obtenerEstadisticas(this.id).pipe(catchError(() => of(null)))),
+  );
 
   private readonly recargarAvances$ = new BehaviorSubject<void>(undefined);
   protected readonly avances$ = this.recargarAvances$.pipe(
