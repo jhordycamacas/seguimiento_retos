@@ -63,6 +63,10 @@ Ejemplo de respuesta:
 | `frontend/src/app/paginas/panel-ritmo.component.ts` | Nuevo. Componente del panel |
 | `frontend/src/app/paginas/reto-detalle.page.ts` | Inserta el panel y el flujo `estadisticas$` |
 
+### Captura en la web
+
+![Panel de ritmo en el navegador](docs/img/panel-ritmo-web.png)
+
 ### Captura en Android
 
 ![Panel de ritmo en el emulador](docs/img/panel-ritmo-android.png)
