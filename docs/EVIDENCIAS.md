@@ -65,6 +65,12 @@ Con `runserver 0.0.0.0:8000` activo, abrir la app **Seguimiento de Retos** en el
 
 **Captura 4:** VS Code (terminal con `BUILD SUCCESSFUL`) junto al emulador con la app cargando datos de `10.0.2.2:8000`.
 
+Capturas del emulador (Pixel 7, API 36), obtenidas con `adb` el 24/11/2026:
+
+| Lista de retos | Detalle con panel de ritmo | Avances | Alertas |
+| --- | --- | --- | --- |
+| ![Lista](img/android-lista-retos.png) | ![Detalle](img/panel-ritmo-android.png) | ![Avances](img/android-avances.png) | ![Alertas](img/android-alertas.png) |
+
 ## Evidencia 5: cierre de semana, alerta en rojo y respuesta 400
 
 Respuesta 400 al modificar una semana cerrada (obtenida):
