@@ -1,7 +1,9 @@
+from django.utils import timezone
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from .estadisticas import calcular_estadisticas
 from .models import Avance, Reto, TareaSemanal
 from .semanas import crear_tareas_semanales
 from .serializers import AvanceSerializer, RetoSerializer, TareaSemanalSerializer
@@ -25,6 +27,13 @@ class RetoViewSet(viewsets.ModelViewSet):
         """Crea las semanas que falten (útil para retos creados antes de esta guía)."""
         creadas = crear_tareas_semanales(self.get_object())
         return Response({'creadas': creadas}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['get'], url_path='estadisticas', pagination_class=None)
+    def estadisticas(self, request, pk=None):
+        """Racha de semanas verdes, cumplimiento promedio y ritmo diario recomendado."""
+        reto = self.get_object()
+        datos = calcular_estadisticas(reto.tareas.all(), timezone.localdate())
+        return Response(datos, status=status.HTTP_200_OK)
 
 
 class AvanceViewSet(viewsets.ModelViewSet):
